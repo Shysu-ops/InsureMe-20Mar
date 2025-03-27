@@ -28,5 +28,17 @@ pipeline {
            sh 'docker build -t balunideepak/insureme:latest .'
             }
           }
+    stage('Login to Dockerhub') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-id-user', passwordVariable: 'docker-pass', usernameVariable: 'docker-user')]) {
+        sh 'docker login -u ${dockeruser} -p ${dockerpass}'
+                      }
+                 }
+            }
+    stage('Push the Docker image') {
+      steps {
+        sh 'docker push balunideepak/insureme:latest'
+                                }
+            }
     }
 }
